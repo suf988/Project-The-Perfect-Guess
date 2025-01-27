@@ -4,19 +4,37 @@
 
 from random import randint
 
-rand = randint(0,10)
+rand = randint(0,100)
 guesses = 0
 
 user_guess = -1
 
+print("\n***** Welcome to The Perfect Guess *****")
+
 while(user_guess != rand):
     guesses += 1
-    user_guess = int(input("Guess a number between 0-10: "))
+    user_guess = int(input("\nGuess a number between 0-100: "))
 
-    if user_guess > rand:
-        print("Guess a lower number.")
+    if user_guess < 0:
+        print("\nX----X---- ERROR! Number can't be negative ----X----X")
+    elif user_guess > 100:
+        print("\nX----X---- ERROR! Number can't be greater than 100 ----X----X")
+    elif user_guess > rand:
+        print("\nGuess a lower number.")
     elif user_guess < rand:
-        print("Guess a higher number.")
+        print("\nGuess a higher number.")
 
-print(f"Congratulations! You guessed the correct number {rand}")
+print(f"\nCongratulations! You guessed the correct number: {rand}")
 print(f"Your guesses: {guesses}")
+
+with open("highscore.txt") as f:
+    old_score = int(f.read())
+
+if guesses < old_score:
+    with open("highscore.txt", 'w') as p:
+        p.write(str(guesses))
+    print("\nYou beat the Highscore!")
+else:
+    print("\nYou couldn't beat the highscore.")
+
+print(f"\nHighscore: {min(old_score, guesses)}")
